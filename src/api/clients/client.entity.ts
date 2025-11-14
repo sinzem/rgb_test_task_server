@@ -36,7 +36,7 @@ export class Client {
     @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
 
-    @ApiProperty({example: Deal, description: "Array with the client's deal IDs"}) 
+    @ApiProperty({example: Deal, description: "Array with the client's deal"}) 
     @OneToMany(() => Deal, (deal) => deal.client, {cascade: true})
     deals: Deal[];
 }
