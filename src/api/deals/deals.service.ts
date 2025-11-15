@@ -16,6 +16,7 @@ import {
     UpdateDealDto, 
     UpdateDealQueryDto 
 } from './dto/update-deal.dto';
+import { title } from 'process';
 
 
 @Injectable()
@@ -66,8 +67,14 @@ export class DealsService {
         const deal = await this.dealsRepository.findOneBy({id});
         if (!deal) throw new BadRequestException({message: `There is no deal with this ID`});
 
+        const dtoIsNull = {
+            title: dto.title ? dto.title : deal.title,
+            amount: dto.amount ? dto.amount : deal.amount,
+            status: dto.title ? dto.status : deal.status,
+        }
+
         try {
-            const updatedDeal = Object.assign(deal, dto);
+            const updatedDeal = Object.assign(deal, dtoIsNull);
             await this.dealsRepository.save(updatedDeal);
             return {deal: updatedDeal};
         } catch (e) {

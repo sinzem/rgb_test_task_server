@@ -30,7 +30,7 @@ export class UpdateDealDto {
 
     @IsOptional()
     @ApiProperty({example: "1234.56", description: "Deal amount"}) 
-    @Transform(({value}) => Number(value))
+    @Transform(({value}) => value ? Number(value) : undefined)
     @IsNumber()
     @Min(0.01)
     readonly amount?: number;
