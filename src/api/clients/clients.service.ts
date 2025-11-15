@@ -80,6 +80,11 @@ export class ClientsService {
 
         if (!client) throw new BadRequestException({message: `There is no client with this ID`});
 
+        if (dto.email) {
+            const emailChecking = await this.clientsRepository.findBy({email: dto.email});
+            if (emailChecking.length) throw new ConflictException({message: "The email is already taken. If this is your address and you don't want to change it, leave this field blank on the update form."});
+        }
+
         const dtoIsNull = {
             name: dto.name ? dto.name : client.name,
             email: dto.email ? dto.email : client.email,

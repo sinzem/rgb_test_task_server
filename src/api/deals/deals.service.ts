@@ -55,7 +55,8 @@ export class DealsService {
         const [deals, total] = await this.dealsRepository.findAndCount({
             where,
             take: limit,
-            skip: (page - 1) * limit
+            skip: (page - 1) * limit,
+            order: { createdAt: 'DESC' }
         });
 
         return {deals, total};
