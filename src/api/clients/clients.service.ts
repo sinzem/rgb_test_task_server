@@ -80,8 +80,14 @@ export class ClientsService {
 
         if (!client) throw new BadRequestException({message: `There is no client with this ID`});
 
+        const dtoIsNull = {
+            name: dto.name ? dto.name : client.name,
+            email: dto.email ? dto.email : client.email,
+            phone: dto.phone ? dto.phone : client.phone,
+        }
+
         try {
-            const updatedClient = Object.assign(client, dto);
+            const updatedClient = Object.assign(client, dtoIsNull);
             await this.clientsRepository.save(updatedClient);
             return {client: updatedClient};
         } catch (e) {
