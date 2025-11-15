@@ -34,7 +34,7 @@ export class DealsService {
         try {
             const deal = this.dealsRepository.create({
                 title: dto.title,
-                amount: 111.11,
+                amount: dto.amount,
                 client
             })
             await this.dealsRepository.save(deal);
