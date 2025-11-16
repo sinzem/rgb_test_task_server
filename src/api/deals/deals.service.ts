@@ -17,6 +17,7 @@ import {
     UpdateDealQueryDto 
 } from './dto/update-deal.dto';
 import { title } from 'process';
+import { GetDealDto } from './dto/get-deal.dto';
 
 
 @Injectable()
@@ -60,6 +61,21 @@ export class DealsService {
         });
 
         return {deals, total};
+    }
+
+     async getDeal({id}: GetDealDto): Promise<{deal: Deal}> {
+        try {
+            const deal = await this.dealsRepository.findOne({
+                where: { id },
+                relations: ['client'],
+            });
+
+            if (!deal) throw new NotFoundException('Deal not found');
+
+            return {deal};
+        } catch (e) {
+            throw new InternalServerErrorException({message: `Error retrieving deal data: ${e}`});
+        }
     }
 
     async updateDeal(dto: UpdateDealDto, {id}: UpdateDealQueryDto): Promise<{deal: Deal}> {

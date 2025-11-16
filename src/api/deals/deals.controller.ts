@@ -35,6 +35,7 @@ import {
     DeleteDealDto, 
     DeleteDealResponseDto 
 } from './dto/delete-deal.dto';
+import { GetDealDto, GetDealResponseDto } from './dto/get-deal.dto';
 
 
 @ApiTags("Deals")
@@ -56,6 +57,13 @@ export class DealsController {
     @Get()
     getDeals(@Query() query: GetDealsDto) {
         return this.dealsService.getDeals(query);
+    }
+
+    @ApiOperation({summary: "Get deal data and its owner"})
+    @ApiOkResponse({type: GetDealResponseDto, description: 'Deal data has been received'}) 
+    @Get("/:id")
+    getClient(@Param() id: GetDealDto) {
+        return this.dealsService.getDeal(id);
     }
 
     @ApiOperation({summary: "Updating deal data"})
